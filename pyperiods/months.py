@@ -1,3 +1,4 @@
+import calendar
 from datetime import date
 
 from .period import Period, InvalidPeriodError, validate_year, validate_month
@@ -32,7 +33,9 @@ class MonthPeriod(Period):
         validate_month(self.month)
         validate_year(self.year)
 
+        last_day = calendar.monthrange(self.year, self.month)[1]
         self.start = date(self.year, self.month, day=1)
+        self.end = date(self.year, self.month, day=last_day)
 
         super().__init__(self.format_period_from(self.year, self.month))
 
@@ -66,6 +69,9 @@ class MonthPeriod(Period):
 
     def first_day(self):
         return self.start
+
+    def last_day(self):
+        return self.end
 
     def as_date(self, day):
         return date(self.year, self.month, day)

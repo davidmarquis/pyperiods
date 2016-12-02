@@ -47,6 +47,15 @@ class Period(object):
     def __lt__(self, other):
         return self.period < other.period
 
+    def first_day(self):
+        raise NotImplementedError('needs implementation')
+
+    def last_day(self):
+        raise NotImplementedError('needs implementation')
+
+    def format_long(self):
+        raise NotImplementedError('needs implementation')
+
     def is_current(self):
         current_period = type(self)()
         return current_period == self

@@ -32,6 +32,11 @@ class YearPeriodTest(TestCase):
     def test_subtract(self):
         self.assertEqual(YearPeriod(2016) - 1, YearPeriod(2015))
 
+    def test_months(self):
+        months_in_year = [str(m) for m in YearPeriod(2016).months]
+        self.assertEqual(months_in_year, ['201601','201602','201603','201604','201605','201606',
+                                          '201607','201608','201609','201610','201611','201612',])
+
     def test_add(self):
         self.assertEqual(YearPeriod(2016) + 1, YearPeriod(2017))
 

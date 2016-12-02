@@ -14,6 +14,7 @@ class YearPeriod(Period):
         validate_year(self.year)
 
         self.start = date(self.year, 1, 1)
+        self.end = date(self.year, 12, 31)
 
         super().__init__(str(self.year))
 
@@ -39,6 +40,13 @@ class YearPeriod(Period):
         for delta in range(start, stop+1):
             yield self + delta
 
+    def first_day(self):
+        return self.start
+
+    def last_day(self):
+        return self.end
+
+    @property
     def months(self):
         return MonthPeriod(year=self.year, month=1).range(0, 11)
 
