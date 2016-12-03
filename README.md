@@ -26,33 +26,20 @@ The basics:
 
 ``` python
 >>> from pyperiods.months import MonthPeriod
->>> start = MonthPeriod('201605')
+>>> start = MonthPeriod(year=2016, month=5)
 >>> start.year
 2016
 >>> start.month
 5
 >>> next_month = start + 1
 >>> str(next_month)
-'201605'
+'201606'
 >>> next_month.format_long
-'May 2016'
+'June 2016'
 >>> next_month.first_day()
 datetime.date(2016, 5, 1)
-
->>> periods = [
-        MonthPeriod('201607'),
-        MonthPeriod('201601'),
-        MonthPeriod('201501'),
-        MonthPeriod('201507'),
-    ]
->>> list(periods.sort())
-[201501, 201507, 201601, 201607]
-
->>> list(MonthPeriod('201605').range(stop=6))
-[201605, 201606, 201607, 201608, 201609, 201610, 201611]
-
->>> list(MonthPeriod('201605').range(start=6, stop=8))
-[201611, 201612, 201701]
+>>> next_month.last_day()
+datetime.date(2016, 5, 30)
 
 >>> from pyperiods.years import YearPeriod
 >>> current_year = YearPeriod()
@@ -63,6 +50,56 @@ datetime.date(2016, 5, 1)
 
 ```
 
+### Basic arithmetic
+
+``` python
+>>> MonthPeriod('201611') + 2
+201701
+>>> MonthPeriod('201611') - 12
+201511
+```
+
+### Sorting & Comparison
+
+``` python
+>>> periods = [
+        MonthPeriod('201607'),
+        MonthPeriod('201601'),
+        MonthPeriod('201501'),
+        MonthPeriod('201507'),
+    ]
+>>> list(periods.sort())
+[201501, 201507, 201601, 201607]
+>>> MonthPeriod('201502') < MonthPeriod('201601')
+True
+>>> MonthPeriod('201502') == MonthPeriod('201503') - 1
+True
+```
+
+### Iteration
+
+``` python
+>>> list(MonthPeriod('201605').range(stop=6))
+[201605, 201606, 201607, 201608, 201609, 201610, 201611]
+>>> list(MonthPeriod('201605').range(start=-2))
+[201603, 201604, 201605]
+>>> list(MonthPeriod('201605').range(start=-2, stop=2))
+[201603, 201604, 201605, 201606, 201607]
+```
+
+### Creation
+
+``` python
+>>> MonthPeriod('201605')
+201605
+>>> MonthPeriod(year=2016)
+
+>>> from pyperiods.factory import period_from_string
+>>> type(period_from_string('2016'))
+<class 'pyperiods.years.YearPeriod'>
+type(period_from_string('201612'))
+<class 'pyperiods.months.MonthPeriod'>
+```
 
 ## APIs
 
