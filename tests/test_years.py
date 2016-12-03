@@ -43,17 +43,17 @@ class YearPeriodTest(TestCase):
     def test_range(self):
         generator = YearPeriod(2015).range(0, 3)
 
-        self.assertEqual([str(m) for m in generator], ['2015', '2016', '2017', '2018'])
+        self.assertEqual([str(year) for year in generator], ['2015', '2016', '2017', '2018'])
 
     def test_range_with_period(self):
         generator = YearPeriod(2015).range(stop=YearPeriod(2018))
 
-        self.assertEqual([str(m) for m in generator], ['2015', '2016', '2017', '2018'])
+        self.assertEqual([str(year) for year in generator], ['2015', '2016', '2017', '2018'])
 
     def test_range_negative(self):
         generator = YearPeriod(2015).range(-2, 2)
 
-        self.assertEqual([str(m) for m in generator], ['2013', '2014','2015', '2016', '2017'])
+        self.assertEqual([str(year) for year in generator], ['2013', '2014','2015', '2016', '2017'])
 
     def test_create_from_empty_strings(self):
         self.assertEqual(str(YearPeriod('')), YearPeriod())
