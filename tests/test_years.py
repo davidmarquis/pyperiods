@@ -40,6 +40,9 @@ class YearPeriodTest(TestCase):
     def test_add(self):
         self.assertEqual(YearPeriod(2016) + 1, YearPeriod(2017))
 
+    def test_subtract(self):
+        self.assertEqual(YearPeriod(2016) - 1, YearPeriod(2015))
+
     def test_range(self):
         generator = YearPeriod(2015).range(0, 3)
 
@@ -71,8 +74,16 @@ class YearPeriodTest(TestCase):
     def test_create_from_empty_strings(self):
         self.assertEqual(str(YearPeriod('')), YearPeriod())
 
-    def test_invalid_years(self):
+    def test_current_past_future(self):
+        month = YearPeriod()
+        self.assertTrue(month.is_current())
+        self.assertFalse(month.next().is_current())
+        self.assertTrue(month.next().is_future())
+        self.assertFalse(month.next().is_past())
+        self.assertTrue(month.previous().is_past())
+        self.assertFalse(month.next().is_past())
 
+    def test_invalid_years(self):
         self.assertRaises(InvalidPeriodError, YearPeriod, 10000)
         self.assertRaises(InvalidPeriodError, YearPeriod, 1950)
         self.assertRaises(InvalidPeriodError, YearPeriod, 'ab')

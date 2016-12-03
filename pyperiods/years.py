@@ -26,15 +26,10 @@ class YearPeriod(Period):
             other = other.year
         return YearPeriod(self.year + other)
 
-    def __sub__(self, other):
-        if isinstance(other, YearPeriod):
-            other = other.year
-        return YearPeriod(self.year - other)
-
     def range(self, start=0, stop=0):
-        if isinstance(start, self.__class__):
+        if isinstance(start, type(self)):
             start = start.year - self.year
-        if isinstance(stop, self.__class__):
+        if isinstance(stop, type(self)):
             stop = stop.year - self.year
 
         for delta in range(start, stop+1):

@@ -20,6 +20,33 @@ class Period(object):
     def __init__(self, period):
         self.period = period
 
+    def first_day(self):
+        raise NotImplementedError('needs implementation')
+
+    def last_day(self):
+        raise NotImplementedError('needs implementation')
+
+    def format_long(self):
+        raise NotImplementedError('needs implementation')
+
+    def next(self):
+        return self + 1
+
+    def previous(self):
+        return self - 1
+
+    def is_current(self):
+        current_period = type(self)()
+        return current_period == self
+
+    def is_future(self):
+        current_period = type(self)()
+        return int(current_period.period) < int(self.period)
+
+    def is_past(self):
+        current_period = type(self)()
+        return int(current_period.period) > int(self.period)
+
     def __repr__(self):
         return str(self.period)
 
@@ -44,22 +71,14 @@ class Period(object):
     def __hash__(self):
         return self.period.__hash__()
 
+    def __sub__(self, other):
+        """
+        Subtracts a certain number of months from this period.
+        """
+        return self + (-other)
+
+    def __add__(self, other):
+        raise NotImplementedError('needs implementation')
+
     def __lt__(self, other):
-        return self.period < other.period
-
-    def first_day(self):
         raise NotImplementedError('needs implementation')
-
-    def last_day(self):
-        raise NotImplementedError('needs implementation')
-
-    def format_long(self):
-        raise NotImplementedError('needs implementation')
-
-    def is_current(self):
-        current_period = type(self)()
-        return current_period == self
-
-    def is_future(self):
-        current_period = type(self)()
-        return int(current_period.period) < int(self.period)

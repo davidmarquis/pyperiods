@@ -76,12 +76,29 @@ class MonthPeriodTest(TestCase):
         self.assertEqual(next(generator), MonthPeriod('201602'))
         self.assertRaises(StopIteration, next, generator)
 
+    def test_range_with_invalid_bounds_yield_nothing(self):
+        start = MonthPeriod('201512')
+        generator = start.range(2, -2)
+        self.assertRaises(StopIteration, next, generator)
+
     def test_create_from_strings(self):
         self.assertEqual(str(MonthPeriod(year='2012', month='02')), '201202')
 
-    def test_create_from_empty_strings(self):
+    def test_create_from_empty_strings_creates_for_current_month(self):
         self.assertEqual(str(MonthPeriod(yearmonth='')), MonthPeriod())
         self.assertEqual(str(MonthPeriod(year='', month='')), MonthPeriod())
+
+    def test_create_from_year_only_uses_january_as_month(self):
+        self.assertEqual(MonthPeriod(year=2012), MonthPeriod('201201'))
+
+    def test_current_past_future(self):
+        month = MonthPeriod()
+        self.assertTrue(month.is_current())
+        self.assertFalse(month.next().is_current())
+        self.assertTrue(month.next().is_future())
+        self.assertFalse(month.next().is_past())
+        self.assertTrue(month.previous().is_past())
+        self.assertFalse(month.next().is_past())
 
     def test_invalid_month(self):
         self.assertRaises(InvalidPeriodError, MonthPeriod, year=2012, month=-1)
@@ -89,11 +106,11 @@ class MonthPeriodTest(TestCase):
         self.assertRaises(InvalidPeriodError, MonthPeriod, year=2012, month=14)
         self.assertRaises(InvalidPeriodError, MonthPeriod, year=2012, month='ab')
 
-    def test_invalid_years(self):
+    def test_invalid_year(self):
         self.assertRaises(InvalidPeriodError, MonthPeriod, year=10000, month=1)
         self.assertRaises(InvalidPeriodError, MonthPeriod, year='ab', month=0)
 
-    def test_invalid_yearmonths(self):
+    def test_invalid_yearmonth(self):
         self.assertRaises(InvalidPeriodError, MonthPeriod, yearmonth='0')
         self.assertRaises(InvalidPeriodError, MonthPeriod, yearmonth='912')
         self.assertRaises(InvalidPeriodError, MonthPeriod, yearmonth='9912')

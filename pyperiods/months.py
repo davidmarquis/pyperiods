@@ -20,9 +20,9 @@ class MonthPeriod(Period):
                     raise ValueError()
                 self.year = int(yearmonth[0:4])
                 self.month = int(yearmonth[4:6])
-            elif not_empty(year) and not_empty(month):
+            elif not_empty(year):
                 self.year = int(year)
-                self.month = int(month)
+                self.month = int(month) if month is not None else 1
             else:
                 today = date.today()
                 self.year = today.year
@@ -37,7 +37,7 @@ class MonthPeriod(Period):
         self.start = date(self.year, self.month, day=1)
         self.end = date(self.year, self.month, day=last_day)
 
-        super().__init__(self.format_period_from(self.year, self.month))
+        super().__init__(MonthPeriod.format_as_identity(self.year, self.month))
 
     def __lt__(self, other):
         if self.year == other.year:
@@ -51,20 +51,20 @@ class MonthPeriod(Period):
         year_delta, month = divmod(self.month + other - 1, 12)
         return MonthPeriod(year=self.year + year_delta, month=month + 1)
 
-    def __sub__(self, other):
-        """
-        Subtracts a certain number of months from this period.
-        """
-        return self + (-other)
-
     def range(self, start=0, stop=0):
+        """
+        Returns a generator that will yield consecutive months relatively from the current month.
+        :param start: The delta to start from (negative starts with a past month)
+        :param stop: The delta to end with
+        :return:
+        """
         for delta in range(start, stop+1):
             yield self + delta
 
     def format_long(self):
         return date.strftime(self.start, '%B %Y')
 
-    def format_month(self):
+    def format_long_month_only(self):
         return date.strftime(self.start, '%B')
 
     def first_day(self):
@@ -73,19 +73,13 @@ class MonthPeriod(Period):
     def last_day(self):
         return self.end
 
+    def days(self, start=1):
+        for day in range(start, self.end.day):
+            yield date(self.year, self.month, day=day)
+
     def as_date(self, day):
         return date(self.year, self.month, day)
 
-    def next(self):
-        return self + 1
-
-    def previous(self):
-        return self - 1
-
     @staticmethod
-    def format_period_from(year, month):
+    def format_as_identity(year, month):
         return '{year}{month:02d}'.format(year=year, month=month)
-
-    @staticmethod
-    def year_months(year):
-        return [item for item in MonthPeriod(year=year, month=1).range(stop=11)]
