@@ -102,7 +102,7 @@ True
 >>> from pyperiods.factory import period_from_string
 >>> type(period_from_string('2016'))
 <class 'pyperiods.years.YearPeriod'>
-type(period_from_string('201612'))
+>>> type(period_from_string('201612'))
 <class 'pyperiods.months.MonthPeriod'>
 ```
 
