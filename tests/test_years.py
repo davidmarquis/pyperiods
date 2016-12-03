@@ -29,47 +29,31 @@ class YearPeriodTest(TestCase):
 
         self.assertEqual([p.year for p in periods], [2015, 2016, 2017, ])
 
-    def test_subtract(self):
-        self.assertEqual(YearPeriod(2016) - 1, YearPeriod(2015))
-
-    def test_months(self):
-        months_in_year = [str(m) for m in YearPeriod(2016).months]
-        self.assertEqual(months_in_year, ['201601','201602','201603','201604','201605','201606',
-                                          '201607','201608','201609','201610','201611','201612',])
-
     def test_add(self):
         self.assertEqual(YearPeriod(2016) + 1, YearPeriod(2017))
 
     def test_subtract(self):
         self.assertEqual(YearPeriod(2016) - 1, YearPeriod(2015))
 
+    def test_months(self):
+        months_in_year = [str(m) for m in YearPeriod(2016).months]
+        self.assertEqual(months_in_year, ['201601','201602','201603','201604','201605','201606',
+                                          '201607','201608','201609','201610','201611','201612'])
+
     def test_range(self):
         generator = YearPeriod(2015).range(0, 3)
 
-        self.assertEqual(next(generator), YearPeriod(2015))
-        self.assertEqual(next(generator), YearPeriod(2016))
-        self.assertEqual(next(generator), YearPeriod(2017))
-        self.assertEqual(next(generator), YearPeriod(2018))
-        self.assertRaises(StopIteration, next, generator)
+        self.assertEqual([str(m) for m in generator], ['2015', '2016', '2017', '2018'])
 
     def test_range_with_period(self):
         generator = YearPeriod(2015).range(stop=YearPeriod(2018))
 
-        self.assertEqual(next(generator), YearPeriod(2015))
-        self.assertEqual(next(generator), YearPeriod(2016))
-        self.assertEqual(next(generator), YearPeriod(2017))
-        self.assertEqual(next(generator), YearPeriod(2018))
-        self.assertRaises(StopIteration, next, generator)
+        self.assertEqual([str(m) for m in generator], ['2015', '2016', '2017', '2018'])
 
     def test_range_negative(self):
         generator = YearPeriod(2015).range(-2, 2)
 
-        self.assertEqual(next(generator), YearPeriod(2013))
-        self.assertEqual(next(generator), YearPeriod(2014))
-        self.assertEqual(next(generator), YearPeriod(2015))
-        self.assertEqual(next(generator), YearPeriod(2016))
-        self.assertEqual(next(generator), YearPeriod(2017))
-        self.assertRaises(StopIteration, next, generator)
+        self.assertEqual([str(m) for m in generator], ['2013', '2014','2015', '2016', '2017'])
 
     def test_create_from_empty_strings(self):
         self.assertEqual(str(YearPeriod('')), YearPeriod())

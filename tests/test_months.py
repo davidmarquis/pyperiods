@@ -59,22 +59,13 @@ class MonthPeriodTest(TestCase):
         start = MonthPeriod('201510')
         generator = start.range(0, 3)
 
-        self.assertEqual(next(generator), MonthPeriod('201510'))
-        self.assertEqual(next(generator), MonthPeriod('201511'))
-        self.assertEqual(next(generator), MonthPeriod('201512'))
-        self.assertEqual(next(generator), MonthPeriod('201601'))
-        self.assertRaises(StopIteration, next, generator)
+        self.assertEqual([str(m) for m in generator], ['201510', '201511', '201512', '201601'])
 
     def test_range_negative(self):
         start = MonthPeriod('201512')
         generator = start.range(-2, 2)
 
-        self.assertEqual(next(generator), MonthPeriod('201510'))
-        self.assertEqual(next(generator), MonthPeriod('201511'))
-        self.assertEqual(next(generator), MonthPeriod('201512'))
-        self.assertEqual(next(generator), MonthPeriod('201601'))
-        self.assertEqual(next(generator), MonthPeriod('201602'))
-        self.assertRaises(StopIteration, next, generator)
+        self.assertEqual([str(m) for m in generator], ['201510', '201511', '201512', '201601', '201602'])
 
     def test_range_with_invalid_bounds_yield_nothing(self):
         start = MonthPeriod('201512')
