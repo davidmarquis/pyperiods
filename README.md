@@ -93,6 +93,7 @@ True
 >>> MonthPeriod('201605')
 201605
 >>> MonthPeriod(year=2016)
+201601
 
 >>> from pyperiods.factory import period_from_string
 >>> type(period_from_string('2016'))
