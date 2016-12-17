@@ -34,7 +34,7 @@ The basics:
 >>> next_month = start + 1
 >>> str(next_month)
 '201606'
->>> next_month.format_long
+>>> next_month.format_long()
 'June 2016'
 >>> next_month.first_day()
 datetime.date(2016, 5, 1)
