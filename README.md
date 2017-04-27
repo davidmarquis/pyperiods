@@ -2,6 +2,14 @@
 
 A Python library for representing and manipulating specific periods in time such as years and year/month.
 
+## How to Install?
+
+`pyperiods` is available on [Pypi](https://pypi.python.org/pypi/pyperiods):
+
+```
+   pip install pyperiods
+```
+
 ## Some features
 
  - Both specific years (ex: 2012) and specific months (ex: January 2012) can be represented, manipulated and compared.
