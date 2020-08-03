@@ -24,7 +24,7 @@ class PeriodField(models.CharField):
             return None
         return period_from_string(value)
 
-    def from_db_value(self, value, expression, connection, context):
+    def from_db_value(self, value, *args):
         return self.to_python(value)
 
     def get_prep_value(self, value):
