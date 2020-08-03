@@ -12,4 +12,6 @@ python -m unittest discover
 git tag $VERSION
 tag push --tags origin
 
-python setup.py sdist upload -r pypi
+rm -rf dist/
+python setup.py sdist
+python -m twine upload -repository pypi dist/*

@@ -6,7 +6,7 @@ setup(
         'pyperiods.django',
         'pyperiods.restframework',
     ],
-    version = '1.0.1',
+    version = '1.1.0',
     description = 'Tools for representing and manipulating periods of time (i.e. months and years)',
     author = 'David Marquis',
     author_email = 'david@radiant3.ca',
